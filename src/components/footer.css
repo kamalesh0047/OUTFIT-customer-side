@@ -1,4 +1,4 @@
-.footer{border-top:1px solid var(--line);margin-top:40px;background:#fff}
+.footer{border-top:1px solid var(--line);margin-top:40px;background:var(--bg)}
 .footer__top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;padding:56px 24px}
 .footer__brand p{color:var(--muted);font-size:14px;max-width:300px;margin:14px 0 18px}
 .footer__social{display:flex;gap:8px}

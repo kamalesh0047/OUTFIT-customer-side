@@ -37,7 +37,7 @@
 }
 
 .contact-card {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: 28px 22px;
