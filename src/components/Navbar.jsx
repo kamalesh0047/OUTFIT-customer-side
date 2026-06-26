@@ -8,6 +8,8 @@ import './navbar.css'
 
 const LINKS = [
   { to:'/', label:'Home' },
+  { to:'/category/shirts', label:'Men' },
+  { to:'/category/women-dresses', label:'Women' },
   { to:'/category/accessories', label:'Accessories' },
   { to:'/category/dresses', label:'Sale' },
   { to:'/about', label:'About' },
