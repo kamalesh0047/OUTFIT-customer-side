@@ -13,7 +13,7 @@ const word = { hidden:{opacity:0,y:24}, show:{opacity:1,y:0,transition:{duration
 
 export default function Home() {
   const headline = ['Style','Beyond','Trends']
-  const displayCategories = CATEGORIES.filter(c => c.slug !== 'pants' && c.slug !== 'dresses')
+  const displayCategories = CATEGORIES.filter(c => c.slug !== 'pants' && c.slug !== 'dresses' && c.slug !== 'shoes')
   const [quickView, setQuickView] = useState(null)
   const newArrivals = PRODUCTS.slice(0, 4)
   const categoriesRef = useRef(null)
