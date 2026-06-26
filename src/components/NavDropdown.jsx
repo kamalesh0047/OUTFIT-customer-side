@@ -13,8 +13,6 @@ export default function NavDropdown() {
     ],
     women: [
       { label: 'Dresses', path: '/category/dresses' },
-      { label: 'Shoes', path: '/category/shoes' },
-      { label: 'Watches', path: '/category/watches' },
     ],
   }
 
