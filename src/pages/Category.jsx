@@ -7,10 +7,10 @@ import './category.css'
 
 const MEN_SUBCATEGORIES = [
   { label: 'Casual wears', slug: 'mens-casual', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=800&fit=crop' },
-  { label: 'Formals wears', slug: 'mens-formals', image: 'https://images.unsplash.com/photo-1591047990852-a938e4e07efb?w=600&h=800&fit=crop' },
+  { label: 'Formals wears', slug: 'mens-formals', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop' },
   { label: 'Party wears', slug: 'mens-party', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=800&fit=crop' },
-  { label: 'Street wears', slug: 'mens-street', image: 'https://images.unsplash.com/photo-1545289414-1c33694e9a5b?w=600&h=800&fit=crop' },
-  { label: 'Traditional wears', slug: 'mens-traditional', image: 'https://images.unsplash.com/photo-1591209240644-b57fa99d6daa?w=600&h=800&fit=crop' },
+  { label: 'Street wears', slug: 'mens-street', image: 'https://images.unsplash.com/photo-1552062407-c551eeda4bbb?w=600&h=800&fit=crop' },
+  { label: 'Traditional wears', slug: 'mens-traditional', image: 'https://images.unsplash.com/photo-1517260103827-4da541708057?w=600&h=800&fit=crop' },
 ]
 
 export default function Category() {
