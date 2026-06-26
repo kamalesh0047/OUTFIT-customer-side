@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Heart, ShoppingBag, Truck, ShieldCheck, RefreshCw, Minus, Plus } from 'lucide-react'
 import { getProduct, related } from '../data/products.js'
@@ -9,17 +9,37 @@ import ProductCard from '../components/ProductCard.jsx'
 import Reveal from '../components/Reveal.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 
 export default function Product() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const p = getProduct(id)
   const { addItem, setOpen } = useCart()
   const { has, toggle } = useWishlist()
+  const { isLoggedIn } = useAuth()
+  const { addToast } = useToast()
   const [active,setActive] = useState(0)
   const [size,setSize] = useState(p?.sizes[0]||'')
   const [color,setColor] = useState(p?.colors[0]||'')
   const [qty,setQty] = useState(1)
   const [tab,setTab] = useState('desc')
+
+  const handleBuyNow = () => {
+    if (!isLoggedIn) {
+      addToast('Please log in to continue', {
+        action: {
+          label: 'Sign In',
+          onClick: () => window.location.href = '/account'
+        },
+        duration: 0
+      })
+      return
+    }
+    addItem(p, { size, color, qty })
+    setOpen(true)
+  }
   if(!p) return <div className="container section"><h2>Product not found</h2><Link className="btn" to="/">Back home</Link></div>
   const liked = has(p.id)
   return (
@@ -44,7 +64,7 @@ export default function Product() {
           </div>
           <div className="pdp__cta">
             <button className="btn btn--block" onClick={()=>addItem(p,{size,color,qty})}><ShoppingBag size={16}/> Add to Cart</button>
-            <button className="btn btn--ghost" onClick={()=>{addItem(p,{size,color,qty});setOpen(true)}}>Buy Now</button>
+            <button className="btn btn--ghost" onClick={handleBuyNow}>Buy Now</button>
             <button className={'pdp__wish'+(liked?' is-on':'')} aria-label="Wishlist" onClick={()=>toggle(p.id)}><Heart size={18} fill={liked?'#0A0A0A':'none'} /></button>
           </div>
           <div className="pdp__assure">

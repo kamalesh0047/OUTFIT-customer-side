@@ -77,3 +77,12 @@
 .nav-dropdown-item:last-child {
   border-radius: 0 0 var(--r-md) var(--r-md);
 }
+
+.nav-dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}

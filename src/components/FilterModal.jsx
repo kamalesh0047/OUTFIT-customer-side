@@ -4,14 +4,7 @@ import './filter-modal.css'
 
 export default function FilterModal({ isOpen, onClose, products, onFilter, showGenderFilter = false }) {
   const [gender, setGender] = useState([])
-  const [priceRange, setPriceRange] = useState([0, 20000])
-
-  const priceRanges = [
-    { label: 'Under ₹2,000', min: 0, max: 2000 },
-    { label: '₹2,000 - ₹5,000', min: 2000, max: 5000 },
-    { label: '₹5,000 - ₹10,000', min: 5000, max: 10000 },
-    { label: '₹10,000+', min: 10000, max: 50000 },
-  ]
+  const [priceRange, setPriceRange] = useState([0, 50000])
 
   const getProductGender = (product) => {
     if (product.category === 'dresses') return 'Women'
@@ -47,7 +40,7 @@ export default function FilterModal({ isOpen, onClose, products, onFilter, showG
 
   const clearFilters = () => {
     setGender([])
-    setPriceRange([0, 20000])
+    setPriceRange([0, 50000])
     onFilter(products)
   }
 
@@ -84,18 +77,59 @@ export default function FilterModal({ isOpen, onClose, products, onFilter, showG
           {/* Price Filter */}
           <div className="filter-group">
             <h3>Price</h3>
-            <div className="filter-options">
-              {priceRanges.map((range, idx) => (
-                <label key={idx} className="filter-option">
-                  <input
-                    type="radio"
-                    name="price"
-                    checked={priceRange[0] === range.min && priceRange[1] === range.max}
-                    onChange={() => handlePriceChange(range.min, range.max)}
-                  />
-                  <span>{range.label}</span>
-                </label>
-              ))}
+            <div className="price-slider-container">
+              <div className="price-inputs">
+                <input
+                  type="number"
+                  min="0"
+                  max="50000"
+                  value={priceRange[0]}
+                  onChange={(e) => {
+                    const val = Math.min(Number(e.target.value), priceRange[1])
+                    handlePriceChange(val, priceRange[1])
+                  }}
+                  className="price-input"
+                />
+                <span className="price-separator">-</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="50000"
+                  value={priceRange[1]}
+                  onChange={(e) => {
+                    const val = Math.max(Number(e.target.value), priceRange[0])
+                    handlePriceChange(priceRange[0], val)
+                  }}
+                  className="price-input"
+                />
+              </div>
+              <div className="range-slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="50000"
+                  value={priceRange[0]}
+                  onChange={(e) => {
+                    const val = Math.min(Number(e.target.value), priceRange[1])
+                    handlePriceChange(val, priceRange[1])
+                  }}
+                  className="range-input range-input-min"
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="50000"
+                  value={priceRange[1]}
+                  onChange={(e) => {
+                    const val = Math.max(Number(e.target.value), priceRange[0])
+                    handlePriceChange(priceRange[0], val)
+                  }}
+                  className="range-input range-input-max"
+                />
+                <div className="range-track">
+                  <div className="range-fill" style={{left: `${(priceRange[0]/50000)*100}%`, right: `${100-(priceRange[1]/50000)*100}%`}} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

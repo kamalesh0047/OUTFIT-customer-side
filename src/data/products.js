@@ -25,7 +25,20 @@ const C = ['Black','White','Beige','Navy','Olive']
 const Sapp = ['S','M','L','XL']
 const Sshoe = ['7','8','9','10','11']
 
-export const PRODUCTS = []
+export const PRODUCTS = [
+  mk(1, 'Classic Leather Oxford', 'OUTFIT', 'shoes', 4500, 6000, 4.8, ['Black', 'Brown'], Sshoe, 'Formal'),
+  mk(2, 'Premium Running Sneaker', 'OUTFIT', 'shoes', 3800, 5500, 4.7, ['White', 'Navy', 'Black'], Sshoe, 'Sports'),
+  mk(3, 'Casual Canvas Low-Top', 'OUTFIT', 'shoes', 2200, 3500, 4.6, ['Beige', 'White', 'Olive'], Sshoe, 'Casual'),
+  mk(4, 'Elegant Analog Watch', 'OUTFIT', 'watches', 8999, 12000, 4.9, ['Black', 'Silver'], ['One Size'], 'Luxury'),
+  mk(5, 'Minimalist Steel Watch', 'OUTFIT', 'watches', 5499, 8000, 4.8, ['Silver'], ['One Size'], 'Modern'),
+  mk(6, 'Classic Leather Watch', 'OUTFIT', 'watches', 3999, 6500, 4.7, ['Brown', 'Black'], ['One Size'], 'Classic'),
+  mk(7, 'Premium Cotton Shirt', 'OUTFIT', 'shirts', 1899, 3000, 4.7, C, Sapp, 'Basics'),
+  mk(8, 'Oxford Button-Down', 'OUTFIT', 'shirts', 2499, 4000, 4.8, C, Sapp, 'Formal'),
+  mk(9, 'Slim Fit Chinos', 'OUTFIT', 'pants', 2299, 3500, 4.6, ['Black', 'Beige', 'Navy'], Sapp, 'Casual'),
+  mk(10, 'Classic Denim Jeans', 'OUTFIT', 'pants', 2899, 4500, 4.7, ['Black', 'Blue'], Sapp, 'Casual'),
+  mk(11, 'Elegant Midi Dress', 'OUTFIT', 'dresses', 3899, 6000, 4.9, ['Black', 'Navy', 'Beige'], Sapp, 'Formal'),
+  mk(12, 'Casual Linen Dress', 'OUTFIT', 'dresses', 2699, 4200, 4.7, ['White', 'Beige', 'Olive'], Sapp, 'Casual'),
+]
 
 export const byCategory = (slug) => PRODUCTS.filter(p => p.category === slug)
 export const byCollection = (name) => PRODUCTS.filter(p => p.collection === name)
