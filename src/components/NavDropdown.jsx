@@ -16,75 +16,44 @@ export default function NavDropdown() {
     ],
   }
 
-  const toggleMenu = (menu) => {
-    setOpenMenu(openMenu === menu ? null : menu)
-  }
-
-  const handleClickOutside = () => {
-    setOpenMenu(null)
-  }
+  const DropdownGroup = ({ type, label, items }) => (
+    <div
+      className="nav-dropdown"
+      onMouseEnter={() => setOpenMenu(type)}
+      onMouseLeave={() => setOpenMenu(null)}
+    >
+      <button
+        className="nav-dropdown-trigger"
+        onClick={(e) => {
+          e.stopPropagation()
+          setOpenMenu(openMenu === type ? null : type)
+        }}
+      >
+        {label}
+        <ChevronDown size={16} className={openMenu === type ? 'expanded' : ''} />
+      </button>
+      {openMenu === type && (
+        <div className="nav-dropdown-menu">
+          {items.map((cat) => (
+            <Link
+              key={cat.path}
+              to={cat.path}
+              className="nav-dropdown-item"
+              onClick={() => setOpenMenu(null)}
+            >
+              {cat.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 
   return (
     <>
-      {/* Men Dropdown */}
-      <div
-        className="nav-dropdown"
-        onMouseEnter={() => setOpenMenu('men')}
-        onMouseLeave={() => setOpenMenu(null)}
-      >
-        <button
-          className="nav-dropdown-trigger"
-          onClick={() => toggleMenu('men')}
-        >
-          Men
-          <ChevronDown size={16} className={openMenu === 'men' ? 'expanded' : ''} />
-        </button>
-        {openMenu === 'men' && (
-          <div className="nav-dropdown-menu">
-            {categories.men.map((cat) => (
-              <Link
-                key={cat.path}
-                to={cat.path}
-                className="nav-dropdown-item"
-                onClick={() => setOpenMenu(null)}
-              >
-                {cat.label}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Women Dropdown */}
-      <div
-        className="nav-dropdown"
-        onMouseEnter={() => setOpenMenu('women')}
-        onMouseLeave={() => setOpenMenu(null)}
-      >
-        <button
-          className="nav-dropdown-trigger"
-          onClick={() => toggleMenu('women')}
-        >
-          Women
-          <ChevronDown size={16} className={openMenu === 'women' ? 'expanded' : ''} />
-        </button>
-        {openMenu === 'women' && (
-          <div className="nav-dropdown-menu">
-            {categories.women.map((cat) => (
-              <Link
-                key={cat.path}
-                to={cat.path}
-                className="nav-dropdown-item"
-                onClick={() => setOpenMenu(null)}
-              >
-                {cat.label}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {openMenu && <div className="nav-dropdown-overlay" onClick={handleClickOutside} />}
+      <DropdownGroup type="men" label="Men" items={categories.men} />
+      <DropdownGroup type="women" label="Women" items={categories.women} />
+      {openMenu && <div className="nav-dropdown-overlay" onClick={() => setOpenMenu(null)} />}
     </>
   )
 }
