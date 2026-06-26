@@ -8,7 +8,7 @@ export default function ProductFilter({ products, onFilter, showGenderFilter = f
 
   const genders = ['Men', 'Women']
   const allSizes = ['S', 'M', 'L', 'XL', '7', '8', '9', '10', '11']
-  const allColors = ['Black', 'White', 'Beige', 'Navy', 'Olive', 'Brown', 'Silver', 'Gold']
+  const allColors = ['Black', 'White', 'Beige', 'Navy', 'Olive', 'Brown', 'Silver', 'Gold', 'Red', 'Blue', 'Green', 'Gray', 'Pink', 'Purple', 'Orange', 'Maroon']
 
   const handleSizeChange = (size) => {
     const newSizes = filters.size.includes(size)
