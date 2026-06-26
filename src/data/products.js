@@ -10,8 +10,8 @@ export const CATEGORIES = [
   { slug: 'watches', label: 'Watches', cover: 'https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F0c7f2b6240f54d449d7a6367fcf77477?format=webp&width=800&height=1200' },
 ]
 
-const mk = (id, name, brand, category, price, original, rating, colors, sizes, collection) => ({
-  id, name, brand, category, price, original, rating,
+const mk = (id, name, brand, category, price, original, rating, colors, sizes, collection, gender = 'unisex') => ({
+  id, name, brand, category, price, original, rating, gender,
   reviews: 20 + (id * 7) % 180,
   discount: original ? Math.round((1 - price / original) * 100) : 0,
   colors, sizes, collection,
@@ -27,18 +27,18 @@ const Sapp = ['S','M','L','XL']
 const Sshoe = ['7','8','9','10','11']
 
 export const PRODUCTS = [
-  mk(1, 'Classic Leather Oxford', 'OUTFIT', 'shoes', 4500, 6000, 4.8, ['Black', 'Brown'], Sshoe, 'Formal'),
-  mk(2, 'Premium Running Sneaker', 'OUTFIT', 'shoes', 3800, 5500, 4.7, ['White', 'Navy', 'Black'], Sshoe, 'Sports'),
-  mk(3, 'Casual Canvas Low-Top', 'OUTFIT', 'shoes', 2200, 3500, 4.6, ['Beige', 'White', 'Olive'], Sshoe, 'Casual'),
-  mk(4, 'Elegant Analog Watch', 'OUTFIT', 'watches', 8999, 12000, 4.9, ['Black', 'Silver'], ['One Size'], 'Luxury'),
-  mk(5, 'Minimalist Steel Watch', 'OUTFIT', 'watches', 5499, 8000, 4.8, ['Silver'], ['One Size'], 'Modern'),
-  mk(6, 'Classic Leather Watch', 'OUTFIT', 'watches', 3999, 6500, 4.7, ['Brown', 'Black'], ['One Size'], 'Classic'),
-  mk(7, 'Premium Cotton Shirt', 'OUTFIT', 'shirts', 1899, 3000, 4.7, C, Sapp, 'Basics'),
-  mk(8, 'Oxford Button-Down', 'OUTFIT', 'shirts', 2499, 4000, 4.8, C, Sapp, 'Formal'),
-  mk(9, 'Slim Fit Chinos', 'OUTFIT', 'pants', 2299, 3500, 4.6, ['Black', 'Beige', 'Navy'], Sapp, 'Casual'),
-  mk(10, 'Classic Denim Jeans', 'OUTFIT', 'pants', 2899, 4500, 4.7, ['Black', 'Blue'], Sapp, 'Casual'),
-  mk(11, 'Elegant Midi Dress', 'OUTFIT', 'dresses', 3899, 6000, 4.9, ['Black', 'Navy', 'Beige'], Sapp, 'Formal'),
-  mk(12, 'Casual Linen Dress', 'OUTFIT', 'dresses', 2699, 4200, 4.7, ['White', 'Beige', 'Olive'], Sapp, 'Casual'),
+  mk(1, 'Classic Leather Oxford', 'OUTFIT', 'shoes', 4500, 6000, 4.8, ['Black', 'Brown'], Sshoe, 'Formal', 'men'),
+  mk(2, 'Premium Running Sneaker', 'OUTFIT', 'shoes', 3800, 5500, 4.7, ['White', 'Navy', 'Black'], Sshoe, 'Sports', 'men'),
+  mk(3, 'Casual Canvas Low-Top', 'OUTFIT', 'shoes', 2200, 3500, 4.6, ['Beige', 'White', 'Olive'], Sshoe, 'Casual', 'women'),
+  mk(4, 'Elegant Analog Watch', 'OUTFIT', 'watches', 8999, 12000, 4.9, ['Black', 'Silver'], ['One Size'], 'Luxury', 'men'),
+  mk(5, 'Minimalist Steel Watch', 'OUTFIT', 'watches', 5499, 8000, 4.8, ['Silver'], ['One Size'], 'Modern', 'women'),
+  mk(6, 'Classic Leather Watch', 'OUTFIT', 'watches', 3999, 6500, 4.7, ['Brown', 'Black'], ['One Size'], 'Classic', 'unisex'),
+  mk(7, 'Premium Cotton Shirt', 'OUTFIT', 'shirts', 1899, 3000, 4.7, C, Sapp, 'Basics', 'men'),
+  mk(8, 'Oxford Button-Down', 'OUTFIT', 'shirts', 2499, 4000, 4.8, C, Sapp, 'Formal', 'men'),
+  mk(9, 'Slim Fit Chinos', 'OUTFIT', 'pants', 2299, 3500, 4.6, ['Black', 'Beige', 'Navy'], Sapp, 'Casual', 'men'),
+  mk(10, 'Classic Denim Jeans', 'OUTFIT', 'pants', 2899, 4500, 4.7, ['Black', 'Blue'], Sapp, 'Casual', 'men'),
+  mk(11, 'Elegant Midi Dress', 'OUTFIT', 'dresses', 3899, 6000, 4.9, ['Black', 'Navy', 'Beige'], Sapp, 'Formal', 'women'),
+  mk(12, 'Casual Linen Dress', 'OUTFIT', 'dresses', 2699, 4200, 4.7, ['White', 'Beige', 'Olive'], Sapp, 'Casual', 'women'),
 ]
 
 export const byCategory = (slug) => {
