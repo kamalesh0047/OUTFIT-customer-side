@@ -3,7 +3,8 @@ import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
 import { inr } from '../components/Price.jsx'
-
+import { placeOrder } from "../services/orderService";
+import { getAuth } from "firebase/auth";
 const STEPS = ['Address','Payment','Review']
 export default function Checkout() {
   const { items, subtotal, discount, tax, shipping, total, clear } = useCart()
@@ -64,10 +65,39 @@ export default function Checkout() {
     return Object.keys(newErrors).length === 0
   }
 
-  const next = ()=> {
-    if(step===0 && !validateAddress()) return
-    step<STEPS.length-1 ? setStep(s=>s+1) : (setDone(true), clear())
+  const next = async () => {
+  if (step === 0 && !validateAddress()) return;
+
+  if (step < STEPS.length - 1) {
+    setStep(s => s + 1);
+    return;
   }
+
+  const user = getAuth().currentUser;
+
+  if (!user) return;
+
+  await placeOrder({
+    userId: user.uid,
+    customerName: formData["Full name"],
+    phone: formData["Phone"],
+    address: {
+      address: formData["Address line"],
+      city: formData["City"],
+      state: formData["State"],
+      pin: formData["PIN code"],
+    },
+    items,
+    subtotal,
+    discount,
+    tax,
+    shipping,
+    total,
+  });
+
+  clear();
+  setDone(true);
+};
   if(done) return (
     <div className="container section" style={{textAlign:'center',maxWidth:560}}>
       <motion.div initial={{scale:0}} animate={{scale:1}} transition={{type:'spring',stiffness:200,damping:14}} style={{width:72,height:72,borderRadius:'50%',background:'var(--ink)',color:'F5F5DCf',display:'grid',placeItems:'center',margin:'0 auto 20px'}}><Check size={34}/></motion.div>

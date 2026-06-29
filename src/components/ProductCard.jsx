@@ -15,10 +15,20 @@ export default function ProductCard({ product, onQuickView }) {
     <motion.article className="pcard" whileHover="hover" initial="rest" animate="rest">
       <div className="pcard__media">
         <Link to={`/product/${product.id}`} aria-label={product.name}>
-          <motion.img loading="lazy" src={product.image} alt={product.name}
+          <motion.img loading="lazy" src={product.image|| product.imageUrl} alt={product.name}
             variants={{ rest:{ scale:1 }, hover:{ scale:1.05 } }} transition={{ duration:.6, ease:[0.22,0.61,0.36,1] }} />
         </Link>
-        {product.discount>0 && <span className="pcard__badge">-{product.discount}%</span>}
+        {Number(product.originalPrice) > product.price && (
+  <span className="pcard__badge">
+    -
+    {Math.round(
+      ((Number(product.originalPrice) - product.price) /
+        Number(product.originalPrice)) *
+        100
+    )}
+    %
+  </span>
+)}
         <motion.button className={'pcard__wish'+(liked?' is-on':'')} aria-label="Wishlist"
           onClick={()=>toggle(product.id)}
           variants={{ rest:{ opacity:0, y:-6 }, hover:{ opacity:1, y:0 } }}>
@@ -26,17 +36,41 @@ export default function ProductCard({ product, onQuickView }) {
         </motion.button>
         <motion.div className="pcard__actions" variants={{ rest:{ opacity:0, y:14 }, hover:{ opacity:1, y:0 } }} transition={{ duration:.3 }}>
           <button className="pcard__qv" onClick={()=>onQuickView?.(product)}><Eye size={15}/> Quick View</button>
-          <button className="pcard__add" onClick={()=>addItem(product,{ size:product.sizes[0], color:product.colors[0] })}><ShoppingBag size={15}/> Add</button>
+          <button
+            className="pcard__add"
+            onClick={() =>
+              addItem(product, {
+                size: product.sizes?.[0] || "One Size",
+                color: product.colors?.[0] || "",
+              })
+            }
+          >
+            <ShoppingBag size={15}/> Add to bag
+          </button>
         </motion.div>
       </div>
       <div className="pcard__body">
-        <span className="pcard__brand">{product.brand}</span>
+        <span className="pcard__brand">{product.brand || "OUTFIT"}</span>
         <Link to={`/product/${product.id}`} className="pcard__name">{product.name}</Link>
-        <Rating value={product.rating} count={product.reviews} />
+        <Rating
+  value={product.rating || 5}
+  count={product.reviews || 0}
+/>
         <div className="pcard__foot">
-          <Price price={product.price} original={product.original} />
-          <div className="pcard__colors">{product.colors.slice(0,4).map((c,i)=>(<span key={i} className="pcard__dot" title={c} style={{background:swatch(c)}} />))}</div>
-        </div>
+          <Price
+  price={product.price}
+  original={Number(product.original || product.originalPrice)}
+/>
+<div className="pcard__colors">
+  {(product.colors ?? []).slice(0,4).map((c,i)=>(
+    <span
+      key={i}
+      className="pcard__dot"
+      title={c}
+      style={{ background: swatch(c) }}
+    />
+  ))}
+</div></div>
       </div>
     </motion.article>
   )

@@ -1,7 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CATEGORIES, byCategory } from '../data/products.js'
-import ProductCard from '../components/ProductCard.jsx'
+import { CATEGORIES } from '../data/products.js'
 import './category.css'
 
 const MEN_SUBCATEGORIES = [
@@ -77,7 +76,6 @@ export default function Category() {
   const { slug } = useParams()
 
   const meta = CATEGORIES.find(c => c.slug === slug)
-  const filteredProducts = byCategory(slug)
 
   const showMenSubcategories = slug === 'shirts'
   const showWomenSubcategories = slug === 'women-dresses'
@@ -105,11 +103,11 @@ export default function Category() {
         {showMenSubcategories && (
           <div className="cat-grid">
             {MEN_SUBCATEGORIES.map(cat => (
-              <Link
-                key={cat.slug}
-                to={`/category/${cat.slug}`}
-                className="cat-card"
-              >
+  <Link
+    key={cat.slug}
+    to={`/products/${encodeURIComponent("Men")}/${encodeURIComponent(cat.label)}`}
+    className="cat-card"
+  >
                 <img src={cat.image} alt={cat.label} />
                 <div className="cat-card__veil"></div>
                 <div className="cat-card__label">{cat.label}</div>
@@ -122,10 +120,10 @@ export default function Category() {
           <div className="cat-grid">
             {WOMEN_SUBCATEGORIES.map(cat => (
               <Link
-                key={cat.slug}
-                to={`/category/${cat.slug}`}
-                className="cat-card"
-              >
+  key={cat.slug}
+  to={`/products/${encodeURIComponent("Women")}/${encodeURIComponent(cat.label)}`}
+  className="cat-card"
+>
                 <img src={cat.image} alt={cat.label} />
                 <div className="cat-card__veil"></div>
                 <div className="cat-card__label">{cat.label}</div>
@@ -137,11 +135,11 @@ export default function Category() {
         {showAccessoriesSubcategories && (
           <div className="cat-grid">
             {ACCESSORIES_SUBCATEGORIES.map(cat => (
-              <Link
-                key={cat.slug}
-                to={`/category/${cat.slug}`}
-                className="cat-card"
-              >
+             <Link
+  key={cat.slug}
+  to={`/products/${encodeURIComponent("Accessories")}/${encodeURIComponent(cat.label)}`}
+  className="cat-card"
+>
                 <img src={cat.image} alt={cat.label} />
                 <div className="cat-card__veil"></div>
                 <div className="cat-card__label">{cat.label}</div>
@@ -149,18 +147,6 @@ export default function Category() {
             ))}
           </div>
         )}
-
-        {filteredProducts.length > 0 && (
-          <div className="pcard-grid">
-            {filteredProducts.map(product => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
-            ))}
-          </div>
-        )}
-
       </section>
     </motion.div>
   )

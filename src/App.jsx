@@ -19,7 +19,7 @@
   const Wishlist = lazy(() => import('./pages/Wishlist.jsx'))
   const Account = lazy(() => import('./pages/Account.jsx'))
   const NotFound = lazy(() => import('./pages/NotFound.jsx'))
-
+const Products = lazy(() => import('./pages/Products.jsx'))
   export default function App() {
     const location = useLocation()
     useLenis()
@@ -38,7 +38,13 @@
                     <Route path="/search" element={<Search />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/category/:slug" element={<Category />} />
-                    <Route path="/product/:id" element={<Product />} />
+
+<Route
+  path="/products/:category/:subcategory"
+  element={<Products />}
+/>
+
+<Route path="/product/:id" element={<Product />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/account" element={<Account />} />

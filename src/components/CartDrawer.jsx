@@ -43,7 +43,11 @@ export default function CartDrawer() {
                 {items.map(it=>(
                   <motion.div key={it.key} className="drawer__item" layout
                     initial={{opacity:0,x:24}} animate={{opacity:1,x:0}} exit={{opacity:0,x:24,height:0,marginBottom:0,paddingTop:0,paddingBottom:0}}>
-                    <img src={it.image} alt={it.name} loading="lazy" />
+                        <img
+    src={it.image || it.imageUrl}
+    alt={it.name}
+    loading="lazy"
+  />
                     <div className="drawer__meta">
                       <span className="drawer__brand">{it.brand}</span>
                       <strong>{it.name}</strong>
