@@ -1,14 +1,14 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CATEGORIES, byCategory, SHIRT_SUBCATEGORIES, PANTS_SUBCATEGORIES, ACCESSORIES_SUBCATEGORIES, WOMEN_SUBCATEGORIES } from '../data/products.js'
-import ProductCard from '../components/ProductCard.jsx'
+import { ArrowLeft } from 'lucide-react'
+import { CATEGORIES, SHIRT_SUBCATEGORIES, PANTS_SUBCATEGORIES, ACCESSORIES_SUBCATEGORIES, WOMEN_SUBCATEGORIES } from '../data/products.js'
 import './category.css'
 
 export default function Category() {
   const { slug } = useParams()
+  const navigate = useNavigate()
 
   const meta = CATEGORIES.find(c => c.slug === slug)
-  const products = byCategory(slug)
 
   return (
     <motion.div
@@ -19,6 +19,9 @@ export default function Category() {
     >
       <div className="cat-hero">
         <div className="container">
+          <button className="btn btn--ghost back-btn" onClick={() => navigate(-1)}>
+            <ArrowLeft size={16} /> Back
+          </button>
           <nav className="crumbs">
             <Link to="/">Home</Link> / <span>{meta?.label || slug}</span>
           </nav>
@@ -219,17 +222,6 @@ export default function Category() {
         </div>
       )}
 
-      {products.length > 0 && slug !== 'shirts' && slug !== 'pants' && slug !== 'accessories' && slug !== 'women-dresses' && (
-        <div className="cat-products">
-          <div className="container">
-            <div className="products-grid">
-              {products.map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </motion.div>
   )
 }

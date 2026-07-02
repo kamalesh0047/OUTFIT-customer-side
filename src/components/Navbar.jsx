@@ -9,8 +9,8 @@ import './navbar.css'
 const LINKS = [
   { to:'/', label:'Home' },
   { to:'/category/shirts', label:'Men', submenu: [
-    { to:'/category/shirts', label:'Shirts' },
-    { to:'/category/pants', label:'Pants' }
+    { to:'/category/shirts', label:'Shirts & T-Shirts' },
+    { to:'/category/pants', label:'Pants & Jeans' }
   ]},
   { to:'/category/women-dresses', label:'Women' },
   { to:'/category/accessories', label:'Accessories' },
@@ -24,6 +24,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [openDropdown, setOpenDropdown] = useState(null)
+  const [mobileExpanded, setMobileExpanded] = useState(null)
   const { setOpen, count } = useCart()
   const { count: wCount } = useWishlist()
   const navigate = useNavigate()
@@ -34,6 +35,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    if (menuOpen) document.body.classList.add('no-scroll')
+    else document.body.classList.remove('no-scroll')
+    return () => document.body.classList.remove('no-scroll')
+  }, [menuOpen])
+
   const handleSearchSubmit = (e) => {
     e.preventDefault()
     if (searchQuery.trim()) {
@@ -43,6 +50,8 @@ export default function Navbar() {
     }
   }
 
+  const closeMobile = () => { setMenuOpen(false); setMobileExpanded(null) }
+
   return (
     <header className={'nav' + (scrolled ? ' nav--scrolled' : '')}>
       <div className="container nav__inner">
@@ -51,6 +60,7 @@ export default function Navbar() {
           <img src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F5e077aae5319489aa778b77bbe61c513?format=webp&width=800&height=1200" alt="OUTFIT Logo" className="nav__logo-image" />
         </Link>
 
+        {/* ── DESKTOP NAV ── */}
         <nav className="nav__links" aria-label="Primary">
           <NavLink to="/" className={({isActive})=>'nav__link'+(isActive?' is-active':'')}>Home</NavLink>
           {LINKS.slice(1).map((l,i)=>(
@@ -79,6 +89,7 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* ── SEARCH OVERLAY ── */}
       <AnimatePresence>
         {searchOpen && (
           <motion.div className="nav__search" initial={{opacity:0,y:-12}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:.3,ease:[0.22,0.61,0.36,1]}}>
@@ -87,7 +98,7 @@ export default function Navbar() {
               <input
                 autoFocus
                 className="nav__search-input"
-                placeholder="Search for shirts, Accesories, dresses…"
+                placeholder="Search for shirts, accessories, dresses…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -97,57 +108,94 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-  <AnimatePresence>
-  {menuOpen && (
-    <>
-      <div
-        className="nav__backdrop"
-        onClick={() => setMenuOpen(false)}
-      />
-
-      <motion.div
-        className="nav__mobile"
-        initial={{ x: "-100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "-100%" }}
-        transition={{
-          type: "tween",
-          duration: 0.35,
-          ease: [0.22, 0.61, 0.36, 1],
-        }}
-      >
-        <div className="nav__mobile-head">
-          <span className="nav__logo">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F5e077aae5319489aa778b77bbe61c513?format=webp&width=800&height=1200"
-              alt="OUTFIT Logo"
-              className="nav__logo-image"
+      {/* ── MOBILE MENU ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div
+              className="nav__backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeMobile}
             />
-          </span>
 
-          <button
-            className="nav__icon"
-            aria-label="Close"
-            onClick={() => setMenuOpen(false)}
-          >
-            <X size={22} />
-          </button>
-        </div>
+            <motion.div
+              className="nav__mobile"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.35, ease: [0.22, 0.61, 0.36, 1] }}
+            >
+              {/* head */}
+              <div className="nav__mobile-head">
+                <span className="nav__logo">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F5e077aae5319489aa778b77bbe61c513?format=webp&width=800&height=1200"
+                    alt="OUTFIT Logo"
+                    className="nav__logo-image"
+                  />
+                </span>
+                <button className="nav__icon" aria-label="Close" onClick={closeMobile}>
+                  <X size={22} />
+                </button>
+              </div>
 
-        {LINKS.map((l, i) => (
-          <NavLink
-            key={i}
-            to={l.to}
-            className="nav__mobile-link"
-            onClick={() => setMenuOpen(false)}
-          >
-            {l.label}
-          </NavLink>
-        ))}
-      </motion.div>
-    </>
-  )}
-</AnimatePresence>
+              {/* links with accordion dropdowns */}
+              <nav className="nav__mobile-nav">
+                {LINKS.map((l, i) => (
+                  l.submenu ? (
+                    <div key={i} className="nav__mobile-group">
+                      <button
+                        className={`nav__mobile-link nav__mobile-link--parent${mobileExpanded === i ? ' is-open' : ''}`}
+                        onClick={() => setMobileExpanded(mobileExpanded === i ? null : i)}
+                      >
+                        <span>{l.label}</span>
+                        <ChevronDown size={18} className={`nav__mobile-chevron${mobileExpanded === i ? ' is-open' : ''}`} />
+                      </button>
+                      <AnimatePresence>
+                        {mobileExpanded === i && (
+                          <motion.div
+                            className="nav__mobile-sub"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
+                          >
+                            {/* "View All" link for the parent category */}
+                            <NavLink to={l.to} className="nav__mobile-sublink" onClick={closeMobile}>
+                              View All {l.label}
+                            </NavLink>
+                            {l.submenu.map((sub, si) => (
+                              <NavLink key={si} to={sub.to} className="nav__mobile-sublink" onClick={closeMobile}>
+                                {sub.label}
+                              </NavLink>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <NavLink key={i} to={l.to} className="nav__mobile-link" onClick={closeMobile}>
+                      <span>{l.label}</span>
+                    </NavLink>
+                  )
+                ))}
+              </nav>
+
+              {/* bottom actions */}
+              <div className="nav__mobile-foot">
+                <Link to="/wishlist" className="nav__mobile-action" onClick={closeMobile}>
+                  <Heart size={18} /> Wishlist {wCount > 0 && <span className="nav__mobile-count">{wCount}</span>}
+                </Link>
+                <Link to="/account" className="nav__mobile-action" onClick={closeMobile}>
+                  <User size={18} /> Account
+                </Link>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

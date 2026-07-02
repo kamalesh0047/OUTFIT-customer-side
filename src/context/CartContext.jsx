@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState, useMemo } from 'react'
+import { createContext, useContext, useReducer, useState, useMemo, useCallback } from 'react'
 
 const CartContext = createContext(null)
 const initial = { items: [] }
@@ -31,11 +31,54 @@ export function CartProvider({ children }) {
   const total = taxable + tax + shipping
   const count = state.items.reduce((s, i) => s + i.qty, 0)
 
+  // Returns how many of a product (by id) are already in the cart
+  const qtyInCart = useCallback((productId) => {
+    return state.items.filter(i => i.id === productId).reduce((s, i) => s + i.qty, 0)
+  }, [state.items])
+
+  // Stock-aware add: returns { ok, message }
   const addItem = (product, { size, color, qty = 1 } = {}) => {
+    const stock = Number(product.stock ?? Infinity)
+    const alreadyInCart = qtyInCart(product.id)
+
+    if (stock === 0) {
+      return { ok: false, message: `${product.name} is out of stock` }
+    }
+
+    if (alreadyInCart + qty > stock) {
+      const canAdd = stock - alreadyInCart
+      if (canAdd <= 0) {
+        return { ok: false, message: `You already have all ${stock} in stock in your bag` }
+      }
+      return { ok: false, message: `Only ${stock} available — you already have ${alreadyInCart} in your bag` }
+    }
+
     const key = [product.id, size, color].filter(Boolean).join('-')
-    dispatch({ type: 'ADD', payload: { key, id: product.id, name: product.name, brand: product.brand, image: product.image, price: product.price, size, color, qty } })
+    dispatch({
+      type: 'ADD',
+      payload: {
+        key, id: product.id, name: product.name, brand: product.brand,
+        image: product.image || product.imageUrl, price: product.price,
+        size, color, qty, stock,
+      },
+    })
     setOpen(true)
+    return { ok: true }
   }
+
+  // Stock-aware qty change for cart drawer
+  const setQty = (key, qty) => {
+    const item = state.items.find(i => i.key === key)
+    if (item) {
+      const stock = Number(item.stock ?? Infinity)
+      if (qty > stock) {
+        return { ok: false, message: `Only ${stock} available` }
+      }
+    }
+    dispatch({ type: 'QTY', payload: { key, qty } })
+    return { ok: true }
+  }
+
   const applyCoupon = (code) => {
     const codes = { OUTFIT10: { code: 'OUTFIT10', rate: 0.10 }, STYLE20: { code: 'STYLE20', rate: 0.20 } }
     const c = codes[code?.toUpperCase()]
@@ -45,9 +88,9 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider value={{
-      items: state.items, dispatch, open, setOpen, addItem,
+      items: state.items, dispatch, open, setOpen, addItem, qtyInCart,
       removeItem: (k) => dispatch({ type: 'REMOVE', payload: k }),
-      setQty: (key, qty) => dispatch({ type: 'QTY', payload: { key, qty } }),
+      setQty,
       clear: () => dispatch({ type: 'CLEAR' }),
       coupon, applyCoupon, subtotal, discount, tax, shipping, total, count
     }}>

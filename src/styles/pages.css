@@ -147,3 +147,65 @@
 .account__order{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
 .account__order span{font-size:13px;color:var(--muted);display:block}
 @media(max-width:760px){.account{grid-template-columns:1fr}.account__nav{flex-direction:row;flex-wrap:wrap}}
+
+/* ======= MOBILE: phone ======= */
+@media(max-width:480px){
+  /* hero */
+  .hero{min-height:70vh}
+  .hero__title{margin:8px 0 12px}
+  .hero__sub{font-size:14px;margin-bottom:18px}
+  .hero__cta{padding:12px 24px;font-size:13px}
+  .hero__logo{width:180px;margin-bottom:16px}
+  /* section heads */
+  .section__head h2{font-size:22px}
+  .section__link{font-size:12px}
+  /* cat grid 2-col */
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .cat-card__label{font-size:13px;left:10px;bottom:10px}
+  /* promo */
+  .promo{grid-template-columns:1fr;padding:18px;gap:14px}
+  .promo__item{gap:10px}
+  .promo__item strong{font-size:13px}
+  .promo__item span{font-size:12px}
+  /* what's new */
+  .new-featured{min-height:260px}
+  .new-featured__label{padding:14px}
+  .new-featured h3{font-size:16px}
+  .whats-new__grid{grid-template-columns:1fr}
+  /* review */
+  .review{padding:16px}
+  .review p{font-size:13px}
+  /* gram */
+  .gram{grid-template-columns:repeat(3,1fr);gap:6px}
+  /* newsletter */
+  .news{padding:36px 16px;border-radius:var(--r-sm)}
+  .news__form{flex-direction:column}
+  /* PDP */
+  .pdp{gap:20px}
+  .pdp__info h1{font-size:22px}
+  .pdp__thumbs{gap:6px}
+  .pdp__thumb{width:52px;height:65px}
+  .pdp__buyrow{flex-direction:column;align-items:stretch;gap:10px}
+  .pdp__cta{flex-direction:column}
+  .pdp__assure{flex-direction:column;gap:10px}
+  .pdp__tabnav{gap:10px}
+  .pdp__tabnav button{font-size:13px}
+  /* checkout */
+  .checkout{gap:24px}
+  .checkout__panel{padding:16px}
+  .checkout__summary{padding:16px}
+  .steps{gap:8px}
+  .steps__item{font-size:12px}
+  .steps__dot{width:22px;height:22px;font-size:11px}
+  /* account */
+  .account__panel{padding:18px}
+  .account__nav button{padding:10px 12px;font-size:13px}
+  .auth{padding:20px}
+  /* cat hero */
+  .cat-hero{padding:28px 0}
+  .cat-hero h1{font-size:24px}
+}
+
+/* PDP stock states */
+.pdp__stock.is-low{color:#D4A017;font-weight:600}
+.pdp__stock.is-oos{color:var(--danger);font-weight:600}

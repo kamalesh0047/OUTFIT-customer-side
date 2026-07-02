@@ -79,6 +79,7 @@ export default function Checkout() {
 
   await placeOrder({
     userId: user.uid,
+    userEmail: user.email || "",
     customerName: formData["Full name"],
     phone: formData["Phone"],
     address: {

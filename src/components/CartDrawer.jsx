@@ -55,7 +55,10 @@ export default function CartDrawer() {
                       <div className="drawer__qty">
                         <button aria-label="Decrease" onClick={()=>setQty(it.key,it.qty-1)}><Minus size={14}/></button>
                         <span>{it.qty}</span>
-                        <button aria-label="Increase" onClick={()=>setQty(it.key,it.qty+1)}><Plus size={14}/></button>
+                        <button aria-label="Increase" onClick={()=>{
+                          const result = setQty(it.key, it.qty+1)
+                          if (!result.ok) addToast(result.message)
+                        }}><Plus size={14}/></button>
                       </div>
                     </div>
                     <div className="drawer__right"><strong>{inr(it.price*it.qty)}</strong><button className="drawer__rm" aria-label="Remove" onClick={()=>removeItem(it.key)}><Trash2 size={16}/></button></div>

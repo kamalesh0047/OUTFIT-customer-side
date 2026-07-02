@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import ProductCard from '../components/ProductCard.jsx'
 import QuickView from '../components/QuickView.jsx'
 import Reveal from '../components/Reveal.jsx'
-import { PRODUCTS } from '../data/products.js'
+import { getProducts } from '../services/productService.js'
 import './search.css'
 
 const PageMotion = { initial:{opacity:0}, animate:{opacity:1}, exit:{opacity:0}, transition:{duration:.4} }
@@ -12,12 +12,23 @@ const PageMotion = { initial:{opacity:0}, animate:{opacity:1}, exit:{opacity:0},
 export default function Search() {
   const [searchParams] = useSearchParams()
   const [quickView, setQuickView] = useState(null)
+  const [allProducts, setAllProducts] = useState([])
+  const [loading, setLoading] = useState(true)
   const query = searchParams.get('q') || ''
-  
-  const results = query.trim() ? PRODUCTS.filter(p =>
-    p.name.toLowerCase().includes(query.toLowerCase()) ||
-    p.brand.toLowerCase().includes(query.toLowerCase()) ||
-    p.description.toLowerCase().includes(query.toLowerCase())
+
+  useEffect(() => {
+    getProducts()
+      .then(setAllProducts)
+      .catch(err => console.error('Failed to load products:', err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const q = query.trim().toLowerCase()
+  const results = q ? allProducts.filter(p =>
+    (p.name || '').toLowerCase().includes(q) ||
+    (p.description || '').toLowerCase().includes(q) ||
+    (p.category || '').toLowerCase().includes(q) ||
+    (p.subcategory || '').toLowerCase().includes(q)
   ) : []
 
   return (
@@ -29,7 +40,7 @@ export default function Search() {
             {query ? `Results for "${query}"` : 'Enter a search term'}
           </p>
           <p className="search-hero__count">
-            {results.length > 0 ? `${results.length} product${results.length !== 1 ? 's' : ''} found` : 'No products found'}
+            {loading ? 'Searching…' : results.length > 0 ? `${results.length} product${results.length !== 1 ? 's' : ''} found` : query ? 'No products found' : ''}
           </p>
         </div>
       </section>
@@ -45,12 +56,14 @@ export default function Search() {
           </div>
         </section>
       ) : (
-        <section className="section container">
-          <div className="search-empty">
-            <h2>No products found</h2>
-            <p>Try searching for different keywords or browse our categories.</p>
-          </div>
-        </section>
+        !loading && query && (
+          <section className="section container">
+            <div className="search-empty">
+              <h2>No products found</h2>
+              <p>Try searching for different keywords or browse our categories.</p>
+            </div>
+          </section>
+        )
       )}
 
       {quickView && <QuickView product={quickView} onClose={() => setQuickView(null)} />}

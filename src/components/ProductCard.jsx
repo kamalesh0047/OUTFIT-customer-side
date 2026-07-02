@@ -5,74 +5,77 @@ import Rating from './Rating.jsx'
 import Price from './Price.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import './product-card.css'
 
 export default function ProductCard({ product, onQuickView }) {
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
+  const { addToast } = useToast()
   const liked = has(product.id)
+  const stock = Number(product.stock ?? 0)
+  const outOfStock = stock === 0
+
+  const handleAdd = () => {
+    if (outOfStock) { addToast('This product is out of stock'); return }
+    const result = addItem(product, {
+      size: product.sizes?.[0] || 'One Size',
+      color: product.colors?.[0] || '',
+    })
+    if (!result.ok) addToast(result.message)
+  }
+
   return (
-    <motion.article className="pcard" whileHover="hover" initial="rest" animate="rest">
+    <motion.article className={'pcard' + (outOfStock ? ' pcard--oos' : '')} whileHover="hover" initial="rest" animate="rest">
       <div className="pcard__media">
         <Link to={`/product/${product.id}`} aria-label={product.name}>
-          <motion.img loading="lazy" src={product.image|| product.imageUrl} alt={product.name}
+          <motion.img loading="lazy" src={product.image || product.imageUrl} alt={product.name}
             variants={{ rest:{ scale:1 }, hover:{ scale:1.05 } }} transition={{ duration:.6, ease:[0.22,0.61,0.36,1] }} />
         </Link>
-        {Number(product.originalPrice) > product.price && (
-  <span className="pcard__badge">
-    -
-    {Math.round(
-      ((Number(product.originalPrice) - product.price) /
-        Number(product.originalPrice)) *
-        100
-    )}
-    %
-  </span>
-)}
+
+        {/* discount badge */}
+        {Number(product.originalPrice) > product.price && !outOfStock && (
+          <span className="pcard__badge">
+            -{Math.round(((Number(product.originalPrice) - product.price) / Number(product.originalPrice)) * 100)}%
+          </span>
+        )}
+
+        {/* stock indicator */}
+        {outOfStock ? (
+          <span className="pcard__badge pcard__badge--oos">Out of stock</span>
+        ) : stock <= 5 ? (
+          <span className="pcard__badge pcard__badge--low">Only {stock} left</span>
+        ) : (
+          <span className="pcard__stock-pill">{stock} in stock</span>
+        )}
+
         <motion.button className={'pcard__wish'+(liked?' is-on':'')} aria-label="Wishlist"
           onClick={()=>toggle(product.id)}
           variants={{ rest:{ opacity:0, y:-6 }, hover:{ opacity:1, y:0 } }}>
           <Heart size={18} fill={liked?'#0A0A0A':'none'} />
         </motion.button>
+
         <motion.div className="pcard__actions" variants={{ rest:{ opacity:0, y:14 }, hover:{ opacity:1, y:0 } }} transition={{ duration:.3 }}>
           <button className="pcard__qv" onClick={()=>onQuickView?.(product)}><Eye size={15}/> Quick View</button>
-          <button
-            className="pcard__add"
-            onClick={() =>
-              addItem(product, {
-                size: product.sizes?.[0] || "One Size",
-                color: product.colors?.[0] || "",
-              })
-            }
-          >
-            <ShoppingBag size={15}/> Add to bag
+          <button className={'pcard__add' + (outOfStock ? ' pcard__add--disabled' : '')} onClick={handleAdd}>
+            <ShoppingBag size={15}/> {outOfStock ? 'Sold out' : 'Add to bag'}
           </button>
         </motion.div>
       </div>
       <div className="pcard__body">
         <span className="pcard__brand">{product.brand || "OUTFIT"}</span>
         <Link to={`/product/${product.id}`} className="pcard__name">{product.name}</Link>
-        <Rating
-  value={product.rating || 5}
-  count={product.reviews || 0}
-/>
+        <Rating value={product.rating || 5} count={product.reviews || 0} />
         <div className="pcard__foot">
-          <Price
-  price={product.price}
-  original={Number(product.original || product.originalPrice)}
-/>
-<div className="pcard__colors">
-  {(product.colors ?? []).slice(0,4).map((c,i)=>(
-    <span
-      key={i}
-      className="pcard__dot"
-      title={c}
-      style={{ background: swatch(c) }}
-    />
-  ))}
-</div></div>
+          <Price price={product.price} original={Number(product.original || product.originalPrice)} />
+          <div className="pcard__colors">
+            {(product.colors ?? []).slice(0,4).map((c,i)=>(
+              <span key={i} className="pcard__dot" title={c} style={{ background: swatch(c) }} />
+            ))}
+          </div>
+        </div>
       </div>
     </motion.article>
   )
 }
-function swatch(c){const m={Black:'#0A0A0A',White:'F5F5DCf',Beige:'#D9CBB8',Navy:'#1E2A44',Olive:'#5C6B4C',Brown:'#6B4A2E',Silver:'#C7CDD1',Gold:'#C9A24B'};return m[c]||'#ddd'}
+function swatch(c){const m={Black:'#0A0A0A',White:'#F5F5DC',Beige:'#D9CBB8',Navy:'#1E2A44',Olive:'#5C6B4C',Brown:'#6B4A2E',Silver:'#C7CDD1',Gold:'#C9A24B'};return m[c]||'#ddd'}

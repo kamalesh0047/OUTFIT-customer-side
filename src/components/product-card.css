@@ -15,3 +15,30 @@
 .pcard__foot{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .pcard__colors{display:flex;gap:4px}
 .pcard__dot{width:14px;height:14px;border-radius:var(--r-pill);border:1px solid var(--line-2);display:inline-block}
+
+@media(max-width:480px){
+  .pcard__body{padding:10px 10px 12px;gap:4px}
+  .pcard__brand{font-size:9px;letter-spacing:.08em}
+  .pcard__name{font-size:13px}
+  .pcard__badge{top:8px;left:8px;font-size:9px;padding:3px 7px}
+  .pcard__wish{top:6px;right:6px;width:32px;height:32px}
+  .pcard__actions{left:6px;right:6px;bottom:6px;gap:4px}
+  .pcard__qv,.pcard__add{font-size:10px;padding:7px 4px}
+}
+
+/* stock indicators */
+.pcard__badge--oos{background:var(--danger);color:#fff}
+.pcard__badge--low{background:#D4A017;color:#fff}
+.pcard__stock-pill{
+  position:absolute;bottom:8px;left:8px;
+  font-size:10px;font-weight:600;letter-spacing:.04em;
+  padding:3px 8px;border-radius:var(--r-pill);
+  background:rgba(30,127,79,.9);color:#fff;
+  pointer-events:none;z-index:2;
+}
+.pcard--oos .pcard__media img{opacity:.5;filter:grayscale(.3)}
+.pcard__add--disabled{opacity:.5;cursor:not-allowed}
+
+@media(max-width:480px){
+  .pcard__stock-pill{font-size:8px;padding:2px 6px;bottom:6px;left:6px}
+}

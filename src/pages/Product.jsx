@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Heart, ShoppingBag, Truck, ShieldCheck, RefreshCw, Minus, Plus } from 'lucide-react'
+import { Heart, ShoppingBag, Truck, ShieldCheck, RefreshCw, Minus, Plus, ArrowLeft } from 'lucide-react'
 import { getProduct, getProductsByCategory } from "../services/productService";
 import Rating from '../components/Rating.jsx'
 import Price from '../components/Price.jsx'
@@ -63,21 +63,13 @@ const loadProduct = async () => {
 
   const handleBuyNow = () => {
   if (!isLoggedIn) {
-    navigate("/account", {
-      state: {
-        from: location.pathname,
-      },
-    });
+    navigate("/account", { state: { from: location.pathname } });
     return;
   }
-
-addItem(
-  {
-    ...p,
-    image: p.imageUrl || p.image,
-  },
-  { size, color, qty }
-);  navigate("/checkout"); // or setOpen(true) if you don't have checkout
+  if (Number(p.stock ?? 0) === 0) { addToast('This product is out of stock'); return }
+  const result = addItem({ ...p, image: p.imageUrl || p.image }, { size, color, qty });
+  if (!result.ok) { addToast(result.message); return }
+  navigate("/checkout");
 }
 if (loading) {
   return (
@@ -127,6 +119,9 @@ const liked = has(p.id);
   ))}</div>
         </div>
         <div className="pdp__info">
+          <button className="btn btn--ghost pdp__back" onClick={() => navigate(-1)} style={{marginBottom:'0.6rem',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'13px',padding:'8px 14px'}}>
+            <ArrowLeft size={15}/> Back
+          </button>
           <nav className="crumbs"><Link to="/">Home</Link> / <Link to={`/category/${p.category}`}>{p.category}</Link> / <span>{p.name}</span></nav>
           <span className="eyebrow">{p.brand || "OUTFIT"}</span>
           <h1>{p.name}</h1>
@@ -144,30 +139,34 @@ const liked = has(p.id);
           {colors.length>0 && <div className="pdp__opt"><span className="pdp__opt-label">Color: <strong>{color}</strong></span><div className="pdp__sAccesories">{colors.map(c=>(<button key={c} className={'pdp__sw'+(c===color?' is-on':'')} onClick={()=>setColor(c)}>{c}</button>))}</div></div>}
           {sizes.length>0 && <div className="pdp__opt"><span className="pdp__opt-label">Size: <strong>{size}</strong></span><div className="pdp__sizes">{sizes.map(s=>(<button key={s} className={'pdp__size'+(s===size?' is-on':'')} onClick={()=>setSize(s)}>{s}</button>))}</div></div>}
           <div className="pdp__buyrow">
-            <div className="drawer__qty"><button aria-label="Decrease" onClick={()=>setQty(q=>Math.max(1,q-1))}><Minus size={14}/></button><span>{qty}</span><button aria-label="Increase" onClick={()=>setQty(q=>q+1)}><Plus size={14}/></button></div>
-<span className={'pdp__stock' + ((p.stock ?? 0) < 8 ? ' is-low' : '')}>
-  {(p.stock ?? 0) < 8
-    ? `Only ${p.stock ?? 0} left`
-    : 'In stock'}
-</span>
-</div>
+            <div className="drawer__qty">
+              <button aria-label="Decrease" onClick={()=>setQty(q=>Math.max(1,q-1))}><Minus size={14}/></button>
+              <span>{qty}</span>
+              <button aria-label="Increase" onClick={()=>{
+                const stock = Number(p.stock ?? 0)
+                if (qty >= stock) { addToast(`Only ${stock} available`); return }
+                setQty(q=>q+1)
+              }}><Plus size={14}/></button>
+            </div>
+            <span className={'pdp__stock' + (Number(p.stock ?? 0) === 0 ? ' is-oos' : Number(p.stock ?? 0) <= 5 ? ' is-low' : '')}>
+              {Number(p.stock ?? 0) === 0 ? 'Out of stock' : Number(p.stock ?? 0) <= 5 ? `Only ${p.stock} left` : `${p.stock} in stock`}
+            </span>
+          </div>
           <div className="pdp__cta">
  <button
   className="btn btn--block"
+  disabled={Number(p.stock ?? 0) === 0}
   onClick={() => {
-    addItem(
-      {
-        ...p,
-        image: p.imageUrl || p.image,
-      },
+    const result = addItem(
+      { ...p, image: p.imageUrl || p.image },
       { size, color, qty }
     );
-
-    setOpen(true); // Open cart drawer
+    if (!result.ok) { addToast(result.message); return }
+    setOpen(true);
   }}
 >
   <ShoppingBag size={16} />
-  Add to Cart
+  {Number(p.stock ?? 0) === 0 ? 'Out of Stock' : 'Add to Cart'}
 </button>
 
   <button className="btn btn--ghost" onClick={handleBuyNow}>
