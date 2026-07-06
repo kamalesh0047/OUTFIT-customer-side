@@ -96,7 +96,7 @@ export default function Home() {
         >
           <motion.img
             className="hero__logo"
-            src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F8ece058782244bdda9f1d6c2f07eec1c?format=webp&width=800&height=1200"
+            src="https://cdn.builder.io/api/v1/image/assets%2F6d6fa49e05dc4ee5b306c7e8fab303d9%2F92237b3d7aef4df69a9ce148cc392c45?format=webp&width=800&height=1200"
             alt="OUTFIT Logo"
             initial={{ opacity: 0, scale: 0.9, filter: 'blur(8px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
@@ -172,7 +172,7 @@ export default function Home() {
 
       <section className="marquee" aria-hidden="true">
         <div className="marquee__track">
-          {[...MARQUEE, ...MARQUEE].map((t, i) => (
+          {MARQUEE.map((t, i) => (
             <span key={i} className="marquee__item">
               {t} <span className="marquee__dot">✦</span>
             </span>

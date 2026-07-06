@@ -91,7 +91,7 @@ export default function CartDrawer() {
                 {msg && <span className="drawer__msg">{msg}{coupon?` — ${coupon.code}`:''}</span>}
                 <Row label="Subtotal" val={inr(subtotal)} />
                 {discount>0 && <Row label="Discount" val={'-'+inr(discount)} />}
-                <Row label="Tax (8%)" val={inr(tax)} />
+                <Row label="Tax (5%)" val={inr(tax)} />
                 <Row label="Shipping" val={shipping===0?'Free':inr(shipping)} />
                 <Row label="Total" val={inr(total)} strong />
                 <Link to={isLoggedIn ? "/checkout" : "#"} className="btn btn--block" onClick={handleCheckout}>Secure Checkout</Link>

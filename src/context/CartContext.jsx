@@ -26,7 +26,7 @@ export function CartProvider({ children }) {
   const subtotal = useMemo(() => state.items.reduce((s, i) => s + i.price * i.qty, 0), [state.items])
   const discount = coupon ? Math.round(subtotal * coupon.rate) : 0
   const taxable = subtotal - discount
-  const tax = Math.round(taxable * 0.08)
+  const tax = Math.round(taxable * 0.05)
   const shipping = subtotal >= 1500 || subtotal === 0 ? 0 : subtotal >= 1000 ? 50 : subtotal >= 300 ? 75 : 0
   const total = taxable + tax + shipping
   const count = state.items.reduce((s, i) => s + i.qty, 0)

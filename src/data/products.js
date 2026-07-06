@@ -4,13 +4,13 @@ const img = (seed) => `https://picsum.photos/seed/${seed}/800/1000`
 export const CATEGORIES = [
   {
     slug: 'shirts',
-    label: 'Men',
+    label: "Men's Collection",
     cover:
       'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVucyUyMGZhc2hpb258ZW58MHx8MHx8fDA%3D',
   },
   {
     slug: 'women-dresses',
-    label: 'Women',
+    label: "Women's Collection",
     cover:
       'https://images.unsplash.com/photo-1756483510802-0acac24ab4e8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },

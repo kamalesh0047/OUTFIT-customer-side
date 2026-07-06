@@ -19,7 +19,7 @@ export default function Category() {
     >
       <div className="cat-hero">
         <div className="container">
-          <button className="btn btn--ghost back-btn" onClick={() => navigate(-1)}>
+          <button className="btn btn--ghost back-btn" onClick={() => window.history.back()}>
             <ArrowLeft size={16} /> Back
           </button>
           <nav className="crumbs">

@@ -57,7 +57,7 @@ export default function Navbar() {
       <div className="container nav__inner">
         <button className="nav__burger" aria-label="Menu" onClick={()=>setMenuOpen(true)}><Menu size={22}/></button>
         <Link to="/" className="nav__logo">
-          <img src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F5e077aae5319489aa778b77bbe61c513?format=webp&width=800&height=1200" alt="OUTFIT Logo" className="nav__logo-image" />
+          <img src="https://cdn.builder.io/api/v1/image/assets%2F6d6fa49e05dc4ee5b306c7e8fab303d9%2F7d8058eabb8e43169db875405ec4e568?format=webp&width=800&height=1200" alt="OUTFIT Logo" className="nav__logo-image" />
         </Link>
 
         {/* ── DESKTOP NAV ── */}
@@ -131,7 +131,7 @@ export default function Navbar() {
               <div className="nav__mobile-head">
                 <span className="nav__logo">
                   <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F5e077aae5319489aa778b77bbe61c513?format=webp&width=800&height=1200"
+                    src="https://cdn.builder.io/api/v1/image/assets%2F6d6fa49e05dc4ee5b306c7e8fab303d9%2F7d8058eabb8e43169db875405ec4e568?format=webp&width=800&height=1200"
                     alt="OUTFIT Logo"
                     className="nav__logo-image"
                   />

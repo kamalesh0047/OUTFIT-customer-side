@@ -142,8 +142,11 @@ export default function Account() {
               We sent a verification link to
             </p>
             <p style={{ fontWeight: 600, marginBottom: 14 }}>{pendingVerifyEmail}</p>
-            <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.6, marginBottom: 18 }}>
-              Click the link in the email, then come back here. Don't see it? Check your spam folder.
+            <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.6, marginBottom: 8 }}>
+              Click the link in the email, then come back here.
+            </p>
+            <p style={{ color: '#ff6b6b', fontSize: 13, lineHeight: 1.6, marginBottom: 18, fontWeight: 500 }}>
+              Please check your spam mail too!
             </p>
             <button className="btn btn--block" disabled={loading} onClick={() => signIn()}>
               {loading ? 'Checking…' : "I've verified — Sign in"}
