@@ -6,7 +6,7 @@ export const CATEGORIES = [
     slug: 'shirts',
     label: 'Men',
     cover:
-      'https://images.unsplash.com/photo-1626557981101-aae6f84aa6ff?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVucyUyMGZhc2hpb258ZW58MHx8MHx8fDA%3D',
   },
   {
     slug: 'women-dresses',
@@ -18,13 +18,13 @@ export const CATEGORIES = [
     slug: 'accessories',
     label: 'Accessories',
     cover:
-      'https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8d2F0Y2h8ZW58MHx8MHx8fDA%3D',
+      'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2F0Y2hlc2Zhc2hpb258ZW58MHx8MHx8fDA%3D',
   },
   {
     slug: 'new-arrivals',
     label: 'New Arrivals',
     cover:
-      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&auto=format&fit=crop&q=60',
+      'https://images.unsplash.com/photo-1731361961158-75691cb80825?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njh8fG5ldyUyMGZhc2hpb258ZW58MHx8MHx8fDA%3D',
   },
 ]
 
@@ -160,10 +160,10 @@ export const PANTS_SUBCATEGORIES = {
 
 export const NEW_ARRIVALS_SUBCATEGORIES = {
   latest: [
-    { slug: 'latest-shirts', label: 'Latest Shirts', cover: 'https://images.unsplash.com/photo-1603251578711-07f1707ce338?w=600&auto=format&fit=crop&q=60' },
-    { slug: 'latest-tshirts', label: 'Latest T-Shirts', cover: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=60' },
-    { slug: 'latest-jeans', label: 'Latest Jeans', cover: 'https://images.unsplash.com/photo-1542272604-787c62d465d1?w=600&auto=format&fit=crop&q=60' },
-    { slug: 'latest-pants', label: 'Latest Pants', cover: 'https://images.unsplash.com/photo-1473966143519-71f63c5d26df?w=600&auto=format&fit=crop&q=60' },
+    { slug: 'latest-shirts', label: 'Latest Shirts', cover: 'https://plus.unsplash.com/premium_photo-1678218594563-9fe0d16c6838?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c2hpcnR8ZW58MHx8MHx8fDA%3D' },
+    { slug: 'latest-tshirts', label: 'Latest T-Shirts', cover: 'https://plus.unsplash.com/premium_photo-1673356302067-aac3b545a362?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fFQtc2hpcnRzfGVufDB8fDB8fHww' },
+    { slug: 'latest-jeans', label: 'Latest Jeans', cover: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGplYW5zfGVufDB8fDB8fHww' },
+    { slug: 'latest-pants', label: 'Latest Pants', cover: 'https://images.unsplash.com/photo-1602573991155-21f0143bb45c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGxhdGVzdCUyMHBhbnRzfGVufDB8fDB8fHww' },
     { slug: 'latest-shorts', label: 'Latest Shorts', cover: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&auto=format&fit=crop&q=60' },
     { slug: 'latest-tracks', label: 'Latest Tracks', cover: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&auto=format&fit=crop&q=60' },
   ],
