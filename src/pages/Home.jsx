@@ -172,7 +172,7 @@ export default function Home() {
 
       <section className="marquee" aria-hidden="true">
         <div className="marquee__track">
-          {[...MARQUEE, ...MARQUEE].map((t, i) => (
+          {MARQUEE.map((t, i) => (
             <span key={i} className="marquee__item">
               {t} <span className="marquee__dot">✦</span>
             </span>

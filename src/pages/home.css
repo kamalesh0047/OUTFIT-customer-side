@@ -19,7 +19,7 @@
 .marquee__track{display:flex;gap:2.5rem;width:max-content;animation:scroll-left 40s linear infinite;will-change:transform}
 .marquee__item{font-weight:600;letter-spacing:.12em;font-size:.82rem;display:inline-flex;gap:.5rem;align-items:center;flex-shrink:0}
 .marquee__dot{opacity:.5}
-@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(calc(-50% - 1.25rem))}}
+@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
 @media(max-width:768px){
   .marquee{padding:.6rem 0}
   .marquee__track{gap:1.5rem;animation:scroll-left 30s linear infinite}
