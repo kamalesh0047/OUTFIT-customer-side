@@ -20,6 +20,11 @@
 .marquee__item{font-weight:600;letter-spacing:.12em;font-size:.82rem;display:inline-flex;gap:2.5rem;align-items:center}
 .marquee__dot{opacity:.5}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:768px){
+  .marquee{padding:.6rem 0}
+  .marquee__track{gap:1.5rem;animation:marquee 20s linear infinite}
+  .marquee__item{font-size:.7rem;gap:1.5rem;letter-spacing:.08em}
+}
 
 /* CATEGORY CARDS */
 .cat-card__media{overflow:hidden;border-radius:inherit}
