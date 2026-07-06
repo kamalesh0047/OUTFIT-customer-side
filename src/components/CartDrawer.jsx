@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Plus, Minus, Trash2, ShieldCheck } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 import { inr } from './Price.jsx'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './cart-drawer.css'
 
 export default function CartDrawer() {
@@ -14,6 +14,17 @@ export default function CartDrawer() {
   const { addToast } = useToast()
   const [code, setCode] = useState('')
   const [msg, setMsg] = useState('')
+  const location = useLocation()
+
+  // Close the drawer on any route change so it never covers a new page
+  useEffect(() => { setOpen(false) }, [location.pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Lock background scroll while the drawer is open (mobile fix)
+  useEffect(() => {
+    if (open) document.body.classList.add('no-scroll')
+    else document.body.classList.remove('no-scroll')
+    return () => document.body.classList.remove('no-scroll')
+  }, [open])
 
   const handleCheckout = (e) => {
     if (!isLoggedIn) {
@@ -39,7 +50,12 @@ export default function CartDrawer() {
             <header className="drawer__head"><h3>Your Cart</h3><button className="nav__icon" aria-label="Close" onClick={()=>setOpen(false)}><X size={20}/></button></header>
             <div className="drawer__items">
               <AnimatePresence initial={false}>
-                {items.length===0 && <p className="drawer__empty">Your cart is empty.</p>}
+                {items.length===0 && (
+                  <div className="drawer__empty">
+                    <p>Your cart is empty.</p>
+                    <button className="btn btn--ghost" style={{marginTop:14}} onClick={()=>setOpen(false)}>Continue Shopping</button>
+                  </div>
+                )}
                 {items.map(it=>(
                   <motion.div key={it.key} className="drawer__item" layout
                     initial={{opacity:0,x:24}} animate={{opacity:1,x:0}} exit={{opacity:0,x:24,height:0,marginBottom:0,paddingTop:0,paddingBottom:0}}>

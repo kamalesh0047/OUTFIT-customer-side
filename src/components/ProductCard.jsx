@@ -1,20 +1,32 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Heart, Eye, ShoppingBag } from 'lucide-react'
 import Rating from './Rating.jsx'
 import Price from './Price.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 import { useToast } from '../context/ToastContext.jsx'
 import './product-card.css'
 
 export default function ProductCard({ product, onQuickView }) {
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
+  const { isLoggedIn } = useAuth()
   const { addToast } = useToast()
+  const navigate = useNavigate()
+  const location = useLocation()
   const liked = has(product.id)
   const stock = Number(product.stock ?? 0)
   const outOfStock = stock === 0
+
+  const handleWish = () => {
+    if (!isLoggedIn) {
+      navigate('/account', { state: { from: location.pathname } })
+      return
+    }
+    toggle(product.id)
+  }
 
   const handleAdd = () => {
     if (outOfStock) { addToast('This product is out of stock'); return }
@@ -50,7 +62,7 @@ export default function ProductCard({ product, onQuickView }) {
         )}
 
         <motion.button className={'pcard__wish'+(liked?' is-on':'')} aria-label="Wishlist"
-          onClick={()=>toggle(product.id)}
+          onClick={handleWish}
           variants={{ rest:{ opacity:0, y:-6 }, hover:{ opacity:1, y:0 } }}>
           <Heart size={18} fill={liked?'#0A0A0A':'none'} />
         </motion.button>

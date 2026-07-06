@@ -2,14 +2,19 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import { inr } from '../components/Price.jsx'
 import { placeOrder } from "../services/orderService";
+import { payWithRazorpay } from "../services/paymentService";
 import { getAuth } from "firebase/auth";
 const STEPS = ['Address','Payment','Review']
 export default function Checkout() {
-  const { items, subtotal, discount, tax, shipping, total, clear } = useCart()
+  const { items, subtotal, discount, tax, shipping, total, clear, coupon } = useCart()
+  const { addToast } = useToast()
   const [step,setStep] = useState(0)
   const [done,setDone] = useState(false)
+  const [payMethod,setPayMethod] = useState('Card')
+  const [placing,setPlacing] = useState(false)
   const [formData,setFormData] = useState({
     'Full name':'',
     'Phone':'',
@@ -73,11 +78,12 @@ export default function Checkout() {
     return;
   }
 
+  if (items.length === 0) return; // nothing to order
+
   const user = getAuth().currentUser;
+  if (!user || placing) return;
 
-  if (!user) return;
-
-  await placeOrder({
+  const baseOrder = {
     userId: user.uid,
     userEmail: user.email || "",
     customerName: formData["Full name"],
@@ -94,10 +100,45 @@ export default function Checkout() {
     tax,
     shipping,
     total,
-  });
+    paymentMethod: payMethod,
+  };
 
-  clear();
-  setDone(true);
+  try {
+    setPlacing(true);
+
+    if (payMethod === "Cash on Delivery") {
+      // COD — no gateway, order goes straight in
+      await placeOrder({ ...baseOrder, paymentStatus: "COD" });
+    } else {
+      // Card / UPI — amount is priced server-side from the cart, so the
+      // UPI app / card sheet shows the exact total automatically.
+      const pay = await payWithRazorpay({
+        items,
+        couponCode: coupon?.code || "",
+        customer: {
+          name: formData["Full name"],
+          email: user.email || "",
+          phone: formData["Phone"],
+        },
+        method: payMethod,
+      });
+      await placeOrder({
+        ...baseOrder,
+        total: pay.amountPaid / 100, // what was actually paid (server-verified)
+        paymentStatus: "Paid",
+        paymentId: pay.paymentId,
+        razorpayOrderId: pay.razorpayOrderId,
+      });
+    }
+
+    clear();
+    setDone(true);
+  } catch (err) {
+    console.error("Order failed:", err);
+    addToast(err?.message || "Something went wrong — you have not been charged");
+  } finally {
+    setPlacing(false);
+  }
 };
   if(done) return (
     <div className="container section" style={{textAlign:'center',maxWidth:560}}>
@@ -111,10 +152,10 @@ export default function Checkout() {
         <div className="steps">{STEPS.map((s,i)=>(<div key={s} className={'steps__item'+(i<=step?' is-on':'')}><span className="steps__dot">{i<step?<Check size={14}/>:i+1}</span><span>{s}</span></div>))}</div>
         <motion.div key={step} initial={{opacity:0,x:16}} animate={{opacity:1,x:0}} transition={{duration:.35}} className="checkout__panel">
           {step===0 && <Form fields={[['Full name','text'],['Phone','tel'],['Address line','text'],['City','text'],['State','text'],['PIN code','text']]} title="Shipping address" data={formData} onChange={setFormData} errors={errors} />}
-          {step===1 && <div className="opts">{[['Card','Visa, Mastercard, Amex'],['UPI','GPay, PhonePe, Paytm'],['Cash on Delivery','Pay when it arrives']].map(([t,s],i)=>(<label key={t} className="opt"><input type="radio" name="pay" defaultChecked={i===0}/><div><strong>{t}</strong><span>{s}</span></div></label>))}</div>}
-          {step===2 && <div><h3 style={{marginBottom:12}}>Review your order</h3>{items.map(it=>(<div key={it.key} className="checkout__line"><span>{it.name} × {it.qty}</span><strong>{inr(it.price*it.qty)}</strong></div>))}{items.length===0 && <p style={{color:'var(--muted)'}}>Your cart is empty.</p>}</div>}
+          {step===1 && <div className="opts">{[['Card','Visa, Mastercard, Amex'],['UPI','GPay, PhonePe, Paytm'],['Cash on Delivery','Pay when it arrives']].map(([t,s])=>(<label key={t} className="opt"><input type="radio" name="pay" checked={payMethod===t} onChange={()=>setPayMethod(t)}/><div><strong>{t}</strong><span>{s}</span></div></label>))}</div>}
+          {step===2 && <div><h3 style={{marginBottom:12}}>Review your order</h3>{items.map(it=>(<div key={it.key} className="checkout__line"><span>{it.name} × {it.qty}</span><strong>{inr(it.price*it.qty)}</strong></div>))}{items.length>0 && <div className="checkout__line" style={{marginTop:8,color:'var(--muted)'}}><span>Payment method</span><strong>{payMethod}</strong></div>}{items.length===0 && <p style={{color:'var(--muted)'}}>Your cart is empty.</p>}</div>}
         </motion.div>
-        <div className="checkout__nav">{step>0 && <button className="btn btn--ghost" onClick={()=>setStep(s=>s-1)}>Back</button>}<button className="btn" onClick={next}>{step===STEPS.length-1?'Place Order':'Continue'}</button></div>
+        <div className="checkout__nav">{step>0 && <button className="btn btn--ghost" onClick={()=>setStep(s=>s-1)} disabled={placing}>Back</button>}<button className="btn" onClick={next} disabled={placing || (step===STEPS.length-1 && items.length===0)}>{placing?'Processing…':step===STEPS.length-1?(payMethod==='Cash on Delivery'?'Place Order':`Pay ${inr(total)}`):'Continue'}</button></div>
       </div>
       <aside className="checkout__summary">
         <h3>Order Summary</h3>

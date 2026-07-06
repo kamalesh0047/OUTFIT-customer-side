@@ -273,7 +273,7 @@
   .nav__badge{min-width:14px;height:14px;font-size:9px;top:2px;right:2px}
   .nav__mobile-link{font-size:16px;padding:14px 0}
   .nav__search-inner{height:48px}
-  .nav__search-input{font-size:14px}
+  .nav__search-input{font-size:16px}
 }
 
 /* ═══ MOBILE MENU: accordion + sub-links ═══ */

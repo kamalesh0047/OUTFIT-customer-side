@@ -14,7 +14,7 @@ const LINKS = [
   ]},
   { to:'/category/women-dresses', label:'Women' },
   { to:'/category/accessories', label:'Accessories' },
-  { to:'/category/dresses', label:'New Arrivals' },
+  { to:'/category/new-arrivals', label:'New Arrivals' },
   { to:'/about', label:'About' },
 ]
 

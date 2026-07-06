@@ -5,6 +5,7 @@ import {
   browserLocalPersistence
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getFunctions } from "firebase/functions";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLxQCgv2rr_K3qbz8u7PbKVOaq7YTp6qg",
@@ -29,5 +30,8 @@ setPersistence(auth, browserLocalPersistence)
   });
 
 export const db = getFirestore(app);
+
+// Cloud Functions live in asia-south1 (Mumbai) — must match functions/index.js
+export const functions = getFunctions(app, "asia-south1");
 
 export default app;

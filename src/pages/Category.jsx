@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
-import { CATEGORIES, SHIRT_SUBCATEGORIES, PANTS_SUBCATEGORIES, ACCESSORIES_SUBCATEGORIES, WOMEN_SUBCATEGORIES } from '../data/products.js'
+import { CATEGORIES, SHIRT_SUBCATEGORIES, PANTS_SUBCATEGORIES, ACCESSORIES_SUBCATEGORIES, WOMEN_SUBCATEGORIES, NEW_ARRIVALS_SUBCATEGORIES } from '../data/products.js'
 import './category.css'
 
 export default function Category() {
@@ -26,7 +26,7 @@ export default function Category() {
             <Link to="/">Home</Link> / <span>{meta?.label || slug}</span>
           </nav>
 
-          <h1>{meta?.label || 'Products'}</h1>
+          <h1>{meta?.label || (slug === 'pants' ? 'Pants & Jeans' : 'Products')}</h1>
         </div>
       </div>
 
@@ -104,6 +104,36 @@ export default function Category() {
               <div className="subcategory-grid">
                 {PANTS_SUBCATEGORIES.shorts.map(sub => (
                   <Link key={sub.slug} to={`/products/pants/${sub.slug}`} className="subcategory-card">
+                    <img src={sub.cover} alt={sub.label} className="subcategory-image" />
+                    <h3 className="subcategory-label">{sub.label}</h3>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="subcategory-section">
+              <h2 className="section-title">🏃 Tracks & Active Wear</h2>
+              <div className="subcategory-grid">
+                {PANTS_SUBCATEGORIES.tracks.map(sub => (
+                  <Link key={sub.slug} to={`/products/pants/${sub.slug}`} className="subcategory-card">
+                    <img src={sub.cover} alt={sub.label} className="subcategory-image" />
+                    <h3 className="subcategory-label">{sub.label}</h3>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {slug === 'new-arrivals' && (
+        <div className="cat-subcategories">
+          <div className="container">
+            <div className="subcategory-section">
+              <h2 className="section-title">✨ Latest Drops</h2>
+              <div className="subcategory-grid">
+                {NEW_ARRIVALS_SUBCATEGORIES.latest.map(sub => (
+                  <Link key={sub.slug} to={`/products/new-arrivals/${sub.slug}`} className="subcategory-card">
                     <img src={sub.cover} alt={sub.label} className="subcategory-image" />
                     <h3 className="subcategory-label">{sub.label}</h3>
                   </Link>

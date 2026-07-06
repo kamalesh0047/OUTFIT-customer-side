@@ -45,14 +45,13 @@ const loadProduct = async () => {
       setSize(product.sizes?.[0] || "");
       setColor(product.colors?.[0] || "");
 
-      const items = await getProductsByCategory(
-        product.category,
-        product.subcategory
-      );
-
-      setRelatedProducts(
-        items.filter((x) => x.id !== product.id).slice(0, 4)
-      );
+      // Related: everything in the same category (subcategory alone is
+      // usually too narrow), preferring same-subcategory items first.
+      const items = await getProductsByCategory(product.category);
+      const others = items.filter((x) => x.id !== product.id);
+      const sameSub = others.filter((x) => x.subcategory === product.subcategory);
+      const rest = others.filter((x) => x.subcategory !== product.subcategory);
+      setRelatedProducts([...sameSub, ...rest].slice(0, 4));
     }
   } catch (err) {
     console.error(err);
@@ -220,10 +219,12 @@ const liked = has(p.id);
           </div>
         </div>
       </section>
-      <section className="section container">
-        <Reveal><div className="section__head"><span className="eyebrow">You may also like</span><h2>Related Products</h2></div></Reveal>
-        <div className="grid grid--4">{relatedProducts.map((r, i) =>(<Reveal key={r.id} delay={i*.05}><ProductCard product={r} /></Reveal>))}</div>
-      </section>
+      {relatedProducts.length > 0 && (
+        <section className="section container">
+          <Reveal><div className="section__head"><span className="eyebrow">You may also like</span><h2>Related Products</h2></div></Reveal>
+          <div className="grid grid--4">{relatedProducts.map((r, i) =>(<Reveal key={r.id} delay={i*.05}><ProductCard product={r} /></Reveal>))}</div>
+        </section>
+      )}
     </motion.div>
   )
 }
