@@ -72,7 +72,7 @@ async function priceCart(items, couponCode) {
   const rate = COUPONS[(couponCode || "").toUpperCase()] || 0;
   const discount = Math.round(subtotal * rate);
   const taxable = subtotal - discount;
-  const tax = Math.round(taxable * 0.08);
+  const tax = Math.round(taxable * 0.05);
   const shipping = shippingFor(subtotal);
   const total = taxable + tax + shipping;
   return { subtotal, discount, tax, shipping, total };
