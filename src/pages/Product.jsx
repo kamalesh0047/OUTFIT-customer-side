@@ -138,7 +138,7 @@ const liked = has(p.id);
           {colors.length>0 && <div className="pdp__opt"><span className="pdp__opt-label">Color: <strong>{color}</strong></span><div className="pdp__sAccesories">{colors.map(c=>(<button key={c} className={'pdp__sw'+(c===color?' is-on':'')} onClick={()=>setColor(c)}>{c}</button>))}</div></div>}
           {sizes.length>0 && <div className="pdp__opt"><span className="pdp__opt-label">Size: <strong>{size}</strong></span><div className="pdp__sizes">{sizes.map(s=>(<button key={s} className={'pdp__size'+(s===size?' is-on':'')} onClick={()=>setSize(s)}>{s}</button>))}</div></div>}
           <div className="pdp__buyrow">
-            <div className="drawer__qty">
+            <div className="pdp__qty">
               <button aria-label="Decrease" onClick={()=>setQty(q=>Math.max(1,q-1))}><Minus size={14}/></button>
               <span>{qty}</span>
               <button aria-label="Increase" onClick={()=>{
@@ -195,7 +195,7 @@ const liked = has(p.id);
             <span><Truck size={16}/> Est. delivery 2–4 days</span><span><RefreshCw size={16}/> 30-day returns</span><span><ShieldCheck size={16}/> Secure checkout</span>
           </div>
           <div className="pdp__tabs">
-            <div className="pdp__tabnav">{[['desc','Description'],['specs','Specifications'],['care','Care']].map(([k,l])=>(<button key={k} className={tab===k?'is-on':''} onClick={()=>setTab(k)}>{l}</button>))}</div>
+            <div className="pdp__tabnav">{[['desc','Description']].map(([k,l])=>(<button key={k} className={tab===k?'is-on':''} onClick={()=>setTab(k)}>{l}</button>))}</div>
             <div className="pdp__tabbody">
               {tab==='desc' && <p>
   {p.description || "No description available."}
