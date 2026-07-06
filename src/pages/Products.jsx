@@ -36,9 +36,9 @@ export default function Products() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container section">
       <button
         className="btn btn--ghost back-btn"
-        onClick={() => navigate(`/category/${category}`)}
+        onClick={() => window.history.back()}
       >
-        <ArrowLeft size={16} /> Back to {decodeURIComponent(category).replace(/-/g, " ")}
+        <ArrowLeft size={16} /> Back
       </button>
 
       <h2 className="section-title" style={{ marginTop: "0.6rem" }}>{title}</h2>

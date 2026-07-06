@@ -118,7 +118,7 @@ const liked = has(p.id);
   ))}</div>
         </div>
         <div className="pdp__info">
-          <button className="btn btn--ghost pdp__back" onClick={() => navigate(-1)} style={{marginBottom:'0.6rem',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'13px',padding:'8px 14px'}}>
+          <button className="btn btn--ghost pdp__back" onClick={() => window.history.back()} style={{marginBottom:'0.6rem',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'13px',padding:'8px 14px'}}>
             <ArrowLeft size={15}/> Back
           </button>
           <nav className="crumbs"><Link to="/">Home</Link> / <Link to={`/category/${p.category}`}>{p.category}</Link> / <span>{p.name}</span></nav>
