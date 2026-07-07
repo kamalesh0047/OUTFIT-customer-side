@@ -46,9 +46,9 @@
         {/* ABOUT HERO */}
         <section className="about-hero">
           <div className="container about-hero__content">
-            <img src="https://cdn.builder.io/api/v1/image/assets%2Fd804a884d1294eac9363b52e819be07b%2F53ef473cb5da4f16862c66536995f217?format=webp&width=800&height=1200" alt="OUTFIT Logo" className="about-hero__logo" />
+            <img src="https://cdn.builder.io/api/v1/image/assets%2F6d6fa49e05dc4ee5b306c7e8fab303d9%2F92237b3d7aef4df69a9ce148cc392c45?format=webp&width=800&height=1200" alt="OUTFIT Logo" className="about-hero__logo" />
             <h1>About OUTFIT</h1>
-            <p>Premium fashion marketplace curated for modern minimalists who value quality and style.</p>
+            <p><b>Serving Style Since 2018 — Timeless Fashion, Trusted Quality</b></p>
           </div>
         </section>
 
@@ -59,7 +59,7 @@
               <div className="contact-card__icon"><Phone size={28}/></div>
               <h3>Call Us</h3>
               <a href="tel:+919600077554" className="contact-card__link">+91 96000 77554</a>
-              <p>Available Mon-Sat, 10AM-6PM IST</p>
+              <p>Available Mon-Sun, 10:30AM-10:30PM</p>
             </motion.div>
 
             <motion.div className="contact-card" whileHover={{y:-4}} transition={{duration:.3}}>
