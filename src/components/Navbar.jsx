@@ -11,7 +11,7 @@ const LINKS = [
   { to:'/category/shirts', label:'Men', submenu: [
     { to:'/category/shirts', label:'Shirts & T-Shirts' },
     { to:'/category/pants', label:'Pants & Jeans' }
-  ]},
+  ], icon: 'female'},
   { to:'/category/women-dresses', label:'Women' },
   { to:'/category/accessories', label:'Accessories' },
   { to:'/category/new-arrivals', label:'New Arrivals' },
@@ -63,7 +63,7 @@ export default function Navbar() {
           <NavLink to="/" className={({isActive})=>'nav__link'+(isActive?' is-active':'')}>Home</NavLink>
           {LINKS.slice(1).map((l,i)=>(
             <div key={i} className="nav__link-wrapper">
-              <NavLink to={l.to} onClick={(e)=>{if(l.submenu) e.preventDefault(); l.submenu && setOpenDropdown(openDropdown === i+1 ? null : i+1)}} className={({isActive})=>'nav__link'+(isActive?' is-active':''+(l.submenu ? ' nav__link--dropdown' : ''))}>{l.label}{l.submenu && <ChevronDown size={14} className="nav__chevron" />}</NavLink>
+              <NavLink to={l.to} onClick={(e)=>{if(l.submenu) e.preventDefault(); l.submenu && setOpenDropdown(openDropdown === i+1 ? null : i+1)}} className={({isActive})=>'nav__link'+(isActive?' is-active':''+(l.submenu ? ' nav__link--dropdown' : ''))}>{l.label}{l.icon && <svg className="nav__gender-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="46" cy="10" r="5" stroke="currentColor" strokeWidth="1.5" fill="none"/><path d="M46 16 L38 24 L35 40 L38 40 L38 48 L44 48 L44 40 L50 40 L47 24 L58 24 L58 40 L61 40 L61 48 L55 48 L55 40 L58 24 Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" strokeLinecap="round"/></svg>}{l.submenu && <ChevronDown size={14} className="nav__chevron" />}</NavLink>
               {l.submenu && openDropdown === i+1 && (
                 <div className="nav__dropdown">
                   {l.submenu.map((sub, si)=>(

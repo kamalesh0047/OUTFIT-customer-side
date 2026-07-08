@@ -65,6 +65,12 @@
   transition:transform .3s var(--ease);
 }
 
+.nav__gender-icon{
+  width:16px;
+  height:16px;
+  color:var(--ink);
+}
+
 .nav__link::after{
   content:'';
   position:absolute;
