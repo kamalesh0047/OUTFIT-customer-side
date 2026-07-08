@@ -65,9 +65,15 @@
   transition:transform .3s var(--ease);
 }
 
+.nav__gender-icons{
+  display:flex;
+  gap:4px;
+  align-items:center;
+}
+
 .nav__gender-icon{
-  width:16px;
-  height:16px;
+  width:14px;
+  height:14px;
   color:var(--ink);
 }
 
