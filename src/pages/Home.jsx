@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Truck, RefreshCw, ShieldCheck, Zap, ArrowRight, Star, Sparkles } from 'lucide-react'
+import { Truck, RefreshCw, ShieldCheck, Zap, ArrowRight, Star, Sparkles, Users, User } from 'lucide-react'
 import Reveal from '../components/Reveal.jsx'
 import QuickView from '../components/QuickView.jsx'
 import { CATEGORIES } from '../data/products.js'
@@ -101,13 +101,24 @@ export default function Home() {
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.05, duration: 0.6 }}
   >
-    <h1 className="hero__brand-name">
-      OUTFIT
-    </h1>
+    <div className="hero__brand-header">
+      <h1 className="hero__brand-name">OUTFIT</h1>
+      <span className="hero__brand-subtitle">For fit</span>
+    </div>
     <div className="hero__brand-tag">
       <span className="hero__brand-line" />
       <span className="hero__brand-text">Do it with outfit</span>
       <span className="hero__brand-line" />
+    </div>
+    <div className="hero__brand-categories">
+      <div className="hero__category-item">
+        <User size={18} />
+        <span>Men</span>
+      </div>
+      <div className="hero__category-item">
+        <Users size={18} />
+        <span>Women</span>
+      </div>
     </div>
   </motion.div> 
         
