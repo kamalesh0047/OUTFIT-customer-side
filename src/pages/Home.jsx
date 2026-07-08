@@ -103,7 +103,7 @@ export default function Home() {
   >
     <div className="hero__brand-header">
       <h1 className="hero__brand-name">OUTFIT</h1>
-      <span className="hero__brand-subtitle">For fit</span>
+      <span className="hero__brand-subtitle">For</span>
     </div>
     <div className="hero__brand-tag">
       <span className="hero__brand-line" />
