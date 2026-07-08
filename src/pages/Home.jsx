@@ -120,16 +120,6 @@ export default function Home() {
       <span className="hero__brand-text">Do it with outfit</span>
       <span className="hero__brand-line" />
     </div>
-    <div className="hero__brand-categories">
-      <div className="hero__category-item">
-        <User size={18} />
-        <span>Men</span>
-      </div>
-      <div className="hero__category-item">
-        <Users size={18} />
-        <span>Women</span>
-      </div>
-    </div>
   </motion.div> 
         
           <motion.span
