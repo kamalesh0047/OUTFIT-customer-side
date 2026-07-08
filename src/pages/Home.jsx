@@ -34,6 +34,7 @@ const MARQUEE = [
 ]
 
 export default function Home() {
+  
   const headline = ['Style', 'Beyond', 'Trends']
   const displayCategories = CATEGORIES
   const [quickView, setQuickView] = useState(null)
@@ -86,7 +87,7 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, ease: [0.22, 0.61, 0.36, 1] }}
         />
-
+    
         <div className="hero__overlay" />
         <div className="hero__grain" />
 
@@ -94,21 +95,29 @@ export default function Home() {
           className="container hero__content"
           style={{ y: contentY, opacity: contentOpacity }}
         >
-          <motion.img
-            className="hero__logo"
-            src="https://cdn.builder.io/api/v1/image/assets%2F6d6fa49e05dc4ee5b306c7e8fab303d9%2F92237b3d7aef4df69a9ce148cc392c45?format=webp&width=800&height=1200"
-            alt="OUTFIT Logo"
-            initial={{ opacity: 0, scale: 0.9, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          />
-
+         <motion.div
+    className="hero__brand"
+    initial={{ opacity: 0, y: -12 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.05, duration: 0.6 }}
+  >
+    <h1 className="hero__brand-name">
+      OUTFIT
+    </h1>
+    <div className="hero__brand-tag">
+      <span className="hero__brand-line" />
+      <span className="hero__brand-text">Do it with outfit</span>
+      <span className="hero__brand-line" />
+    </div>
+  </motion.div> 
+        
           <motion.span
             className="eyebrow eyebrow--hero"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
+            
             <Sparkles size={14} /> Premium Fashion Marketplace
           </motion.span>
 
@@ -161,7 +170,7 @@ export default function Home() {
                 <Star key={i} size={15} fill="currentColor" strokeWidth={0} />
               ))}
             </div>
-            <span>Loved by 25,000+ customers</span>
+            <span>Loved by 1.5lakh+ customers</span>
           </motion.div>
         </motion.div>
 

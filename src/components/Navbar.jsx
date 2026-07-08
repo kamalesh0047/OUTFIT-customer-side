@@ -56,9 +56,7 @@ export default function Navbar() {
     <header className={'nav' + (scrolled ? ' nav--scrolled' : '')}>
       <div className="container nav__inner">
         <button className="nav__burger" aria-label="Menu" onClick={()=>setMenuOpen(true)}><Menu size={22}/></button>
-        <Link to="/" className="nav__logo">
-          <img src="https://cdn.builder.io/api/v1/image/assets%2F6d6fa49e05dc4ee5b306c7e8fab303d9%2F7d8058eabb8e43169db875405ec4e568?format=webp&width=800&height=1200" alt="OUTFIT Logo" className="nav__logo-image" />
-        </Link>
+       
 
         {/* ── DESKTOP NAV ── */}
         <nav className="nav__links" aria-label="Primary">
