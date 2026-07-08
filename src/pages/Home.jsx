@@ -104,12 +104,6 @@ export default function Home() {
     <div className="hero__brand-header">
       <h1 className="hero__brand-name">OUTFIT</h1>
       <span className="hero__brand-subtitle">For</span>
-      <div className="hero__brand-icons">
-        <svg className="brand-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="18" cy="10" r="5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-          <path d="M18 16 L12 24 L12 40 L15 40 L15 48 L21 48 L21 40 L27 40 L27 24 L21 16 Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" strokeLinecap="round"/>
-        </svg>
-      </div>
     </div>
     <div className="hero__brand-tag">
       <span className="hero__brand-line" />
