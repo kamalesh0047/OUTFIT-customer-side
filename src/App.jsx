@@ -22,7 +22,6 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 const Products = lazy(() => import('./pages/Products.jsx'))
 const Offers = lazy(() => import('./pages/Offers.jsx'))
 const Shop = lazy(() => import('./pages/shop.jsx'))
-
 export default function App() {
   const location = useLocation()
   useLenis()
